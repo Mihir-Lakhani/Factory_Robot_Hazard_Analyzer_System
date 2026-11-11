@@ -1,25 +1,25 @@
 package in.mihirlakhani.auditor;
 
-import in.mihirlakhani.validator.Validator;
-import in.mihirlakhani.enums.MachineryState;
 import in.mihirlakhani.exceptions.RobotSafetyException;
+import in.mihirlakhani.model.RobotHazardInput;
+import in.mihirlakhani.strategy.HazardRiskStrategy;
+import in.mihirlakhani.validator.Validator;
 
 public class RobotHazardAuditor {
 
-    public double calculateHazardRisk(
-            double armPrecision,
-            int workerDensity,
-            String machineryState) throws RobotSafetyException {
+    private final HazardRiskStrategy riskStrategy;
 
-        MachineryState state = Validator.validate(armPrecision, workerDensity, machineryState);
+    public RobotHazardAuditor(HazardRiskStrategy riskStrategy) {
+        if (riskStrategy == null) {
+            throw new IllegalArgumentException("Risk strategy must not be null");
+        }
+        this.riskStrategy = riskStrategy;
+    }
 
-        double machineRiskFactor = state.getRiskFactor();
+    public double calculateHazardRisk(RobotHazardInput input)
+            throws RobotSafetyException {
 
-//        double machineRiskFactor =
-//                machineryState.equals("Worn") ? 1.3 :
-//                        machineryState.equals("Faulty") ? 2.0 : 3.0;
-
-        return ((1.0 - armPrecision) * 15.0)
-                + (workerDensity * machineRiskFactor);
+        Validator.validate(input);
+        return riskStrategy.calculate(input);
     }
 }
