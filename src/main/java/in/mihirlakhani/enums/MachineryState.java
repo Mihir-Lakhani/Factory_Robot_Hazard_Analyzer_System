@@ -21,7 +21,7 @@ public enum MachineryState {
 
     public static MachineryState fromString(String value)
             throws RobotSafetyException {
-        for (MachineryState state : values()) {
+        for (MachineryState state : MachineryState.values()) {
             if (state.displayName.equals(value)) {
                 return state;
             }
