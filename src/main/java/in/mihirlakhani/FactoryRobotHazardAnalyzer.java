@@ -1,6 +1,7 @@
 package in.mihirlakhani;
 
 import in.mihirlakhani.auditor.RobotHazardAuditor;
+import in.mihirlakhani.exceptions.RobotSafetyException;
 
 import java.util.Scanner;
 
@@ -26,19 +27,24 @@ public class FactoryRobotHazardAnalyzer {
         System.out.printf("Machinery State : %s\n", machineryState);
 
 
+        try{
 
-        RobotHazardAuditor auditor = new RobotHazardAuditor();
+            RobotHazardAuditor auditor = new RobotHazardAuditor();
 
-        double hazardRiskScore = auditor.calculateHazardRisk(
-                armPrecision, workerDensity, machineryState
-        );
+            double hazardRiskScore = auditor.calculateHazardRisk(
+                    armPrecision, workerDensity, machineryState
+            );
 
-        if (hazardRiskScore != -1.0) {
             System.out.printf(
                     "Hazard Risk Score: %.2f%n",
-                    hazardRiskScore
-            );
+                    hazardRiskScore);
+
+        } catch (RobotSafetyException e){
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
         }
+
+
     }
 
 
