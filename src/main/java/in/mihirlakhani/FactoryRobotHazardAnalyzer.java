@@ -1,5 +1,7 @@
 package in.mihirlakhani;
 
+import in.mihirlakhani.auditor.RobotHazardAuditor;
+
 import java.util.Scanner;
 
 public class FactoryRobotHazardAnalyzer {
@@ -23,5 +25,10 @@ public class FactoryRobotHazardAnalyzer {
         System.out.printf("Worker Density : %d\n", workerDensity);
         System.out.printf("Machinery State : %s\n", machineryState);
 
+        RobotHazardAuditor auditor = new RobotHazardAuditor();
+
+        double hazardRiskScore = auditor.calculateHazardRisk(armPrecision, workerDensity, machineryState);
+
+        System.out.printf("Hazard Risk Score: %.2f%n", hazardRiskScore);
     }
 }
