@@ -25,10 +25,25 @@ public class FactoryRobotHazardAnalyzer {
         System.out.printf("Worker Density : %d\n", workerDensity);
         System.out.printf("Machinery State : %s\n", machineryState);
 
-        RobotHazardAuditor auditor = new RobotHazardAuditor();
 
-        double hazardRiskScore = auditor.calculateHazardRisk(armPrecision, workerDensity, machineryState);
+        if (armPrecision < 0.0 || armPrecision > 1.0) {
+            System.out.println("Error: Arm precision must be 0.0-1.0");
+        }
+        else if (workerDensity < 1 || workerDensity > 20) {
+            System.out.println("Error: Worker density must be 1-20");
+        }
+        else if (!machineryState.equalsIgnoreCase("worn")
+                    && !machineryState.equalsIgnoreCase("faulty")
+                    && !machineryState.equalsIgnoreCase("critical")) {
+            System.out.println("Error: Machinery state must be either Work or Faulty or Critical");
+        } else {
+            RobotHazardAuditor auditor = new RobotHazardAuditor();
+            double hazardRiskScore = auditor.calculateHazardRisk(
+                    armPrecision, workerDensity, machineryState
+            );
 
-        System.out.printf("Hazard Risk Score: %.2f%n", hazardRiskScore);
+            System.out.printf("Hazard Risk Score: %.2f%n", hazardRiskScore);
+        }
+
     }
 }
