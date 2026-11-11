@@ -6,12 +6,12 @@ import in.mihirlakhani.exceptions.RobotSafetyException;
 import java.util.Scanner;
 
 public class FactoryRobotHazardAnalyzer {
-    static void main() {
+    public static void main(String[] args) {
         System.out.println("Factory Robot Hazard Analyzer");
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Enter Arm Precision (0.0-0.1):");
+        System.out.println("Enter Arm Precision (0.0-1.0):");
         float armPrecision = sc.nextFloat();
         sc.nextLine(); //consume leftover newline
 
@@ -41,7 +41,7 @@ public class FactoryRobotHazardAnalyzer {
 
         } catch (RobotSafetyException e){
             System.out.println(e.getMessage());
-            System.out.println(e.getStackTrace());
+            e.printStackTrace();
         }
 
 
