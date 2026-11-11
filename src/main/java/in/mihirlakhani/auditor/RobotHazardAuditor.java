@@ -1,41 +1,42 @@
 package in.mihirlakhani.auditor;
 
+import in.mihirlakhani.exceptions.RobotSafetyException;
+
 public class RobotHazardAuditor {
 
-    private boolean validate(double armPrecision,
+    private void validate(double armPrecision,
                              int workerDensity,
-                             String machineryState) {
+                             String machineryState) throws RobotSafetyException {
 
         if (armPrecision < 0.0 || armPrecision > 1.0) {
-            System.out.println(
-                    "Error: Arm precision must be 0.0-1.0");
-            return false;
+            throw new RobotSafetyException("Error: Arm precision must be 0.0-1.0");
+//            System.out.println(
+//                    "Error: Arm precision must be 0.0-1.0");
+//            return false;
         }
         else if (workerDensity < 1 || workerDensity > 20) {
-            System.out.println(
-                    "Error: Worker density must be 1-20");
-            return false;
+            throw new RobotSafetyException("Error: Worker density must be 1-20");
+//            System.out.println(
+//                    "Error: Worker density must be 1-20");
+//            return false;
         }
-        else if (!machineryState.equals("Worn")
-                && !machineryState.equals("Faulty")
-                && !machineryState.equals("Critical")) {
-
-            System.out.println(
-                    "Error: Unsupported machinery state");
-            return false;
+        else if (!machineryState.equalsIgnoreCase("Worn")
+                && !machineryState.equalsIgnoreCase("Faulty")
+                && !machineryState.equalsIgnoreCase("Critical")) {
+            throw new RobotSafetyException("Error: Unsupported machinery state");
+//            System.out.println(
+//                    "Error: Unsupported machinery state");
+//            return false;
         }
 
-        return true;
     }
 
     public double calculateHazardRisk(
             double armPrecision,
             int workerDensity,
-            String machineryState) {
+            String machineryState) throws RobotSafetyException {
 
-        if (!validate(armPrecision, workerDensity, machineryState)) {
-            return -1.0;
-        }
+        validate(armPrecision, workerDensity, machineryState);
 
         double machineRiskFactor =
                 machineryState.equals("Worn") ? 1.3 :
